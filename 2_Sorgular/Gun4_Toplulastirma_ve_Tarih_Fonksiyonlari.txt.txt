@@ -1,0 +1,44 @@
+/*
+GÜN 4 - Satır Sayma (COUNT)
+Amaç: Sisteme girilen toplam sipariş hacmini tek bir metrik olarak raporlamak.
+*/
+
+SELECT  count(siparis_ID) as 'siparis_kaydi' from kapsamli_satislar
+-----------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 4 - Verileri Toplama (SUM)
+Amaç: Kargo ve depo operasyonları için satılan toplam fiziksel ürün (adet) miktarını bulmak.
+*/
+SELECT SUM(adet) as urun_sayisi from kapsamli_satislar
+
+-----------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 4 - Ortalama Hesaplama (AVG)
+Amaç: Reklam stratejileri için müşteri tabanının ortalama yaşını tespit etmek.
+*/
+SELECT AVG(musteri_yasi) as 'yas_ortalamasi' from kapsamli_satislar
+
+---------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 4 - Uç Değerler (MIN ve MAX)
+Amaç: Şirketin fiyat yelpazesini (en ucuz ve en pahalı satışları) tek bir görünümde özetlemek.
+*/
+SELECT MAX(satis_fiyati) as 'en_yuksek_satis' , MIN(satis_fiyati) as 'en_dusuk_satis' from kapsamli_satislar
+
+------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 4 - Tarih Fonksiyonları (DAY, MONTH, YEAR)
+Amaç: Zaman serisi analizleri için tekil tarih verisini gün, ay ve yıl bileşenlerine ayrıştırmak.
+*/
+SELECT siparis_ID, tarih as 'orijinal_tarih' ,
+YEAR(tarih) as 'siparis_yili' ,
+MONTH(TARİH) AS 'siparis_ayi' ,
+DAY(tarih) as 'siparis_gunu' from kapsamli_satislar
+
+---------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 4 - Ay Bazlı Veri Filtreleme (MONTH)
+Amaç: Dönemsel satış analizleri için spesifik bir aya (Eylül) ait tüm siparişleri getirmek.
+*/
+SELECT * from kapsamli_satislar where MONTH(tarih) = 9

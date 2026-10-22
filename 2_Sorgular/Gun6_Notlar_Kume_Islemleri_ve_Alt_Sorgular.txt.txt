@@ -1,0 +1,50 @@
+/*
+GÜN 6 - INTERSECT (Kesişim) Kullanımı
+Amaç: İki farklı ürün grubunu da satın almış olan hedef kitleyi (kesişim kümesini) tespit etmek.
+*/
+SELECT musteri_ID from kapsamli_satislar
+WHERE urun_adi = 'Akıllı saat'
+
+INTERSECT
+
+SELECT musteri_ID from kapsamli_satislar
+WHERE urun_adi = 'kablosuz kulaklık'
+
+--------------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 6 - EXCEPT (Fark) Kullanımı
+Amaç: Kayıtlı müşteriler kümesinden, aktif sipariş verenler kümesini çıkararak hiç işlem yapmamış pasif müşterileri (farkı) bulmak.
+*/
+SELECT musteri_ID from musteriler
+EXCEPT
+SELECT musteri_ID from kapsamli_satislar
+
+-----------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 6 - UNION Kullanımı
+Amaç: İki farklı filtre sonucunu alt alta ekleyip, aynı isimleri otomatik olarak silerek tekil bir liste oluşturmak.
+*/
+SELECT ad_soyad from musteriler
+WHERE meslek = 'öğrenci'
+UNION
+SELECT ad_soyad from musteriler
+WHERE uyelik_tipi = 'premium'
+
+----------------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 6 - UNION ALL Kullanımı (Temel Seviye)
+Amaç: İki farklı listeyi birleştirirken, her iki listede de bulunan isimleri silmeden (iki kez yazarak) alt alta eklemek.
+*/
+SELECT ad_soyad from musteriler
+WHERE meslek = 'öğrenci'
+UNION ALL
+SELECT ad_soyad from musteriler
+WHERE uyelik_tipi = 'premium'
+---------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 6 - Alt Sorgu
+Amaç: En yüksek değeri bulan bir alt sorgu yazıp, ana sorguda bu değeri eşittir (=) ile aratmak.
+*/
+SELECT ad_soyad , sadakat_puani from musteriler
+WHERE sadakat_puani = (SELECT MAX(sadakat_puani) from musteriler)

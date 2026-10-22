@@ -1,0 +1,77 @@
+/*
+GÜN 7 - Tablosuz DECLARE Kullanımı (Metin Birleştirme)
+Amaç: T-SQL yapısında metinsel (VARCHAR) değişkenler tanımlayıp değer atamak ve PRINT ile ekrana basmak.
+*/
+
+DECLARE @personel_adi VARCHAR(30)
+DECLARE @unvan VARCHAR(30)
+
+
+SET @personel_adi = 'Ahmet Yılmaz'
+SET @unvan = 'Veri Analisti'
+
+PRINT @personel_adi + ' - ' + @unvan
+-----------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 7 - Değişkenler ile 4 İşlem (Matematiksel Operasyonlar)
+Amaç: Hafızada oluşturulan değişkenleri matematiksel operatörler (+, -, *, /) ile işleme sokmak.
+*/
+DECLARE @sayi1 INT
+DECLARE @sayi2 INT
+
+
+SET @sayi1 = 20
+SET @sayi2 = 5
+
+SELECT
+    @sayi1 + @sayi2 AS Toplama_Sonucu,
+    @sayi1 - @sayi2 AS Cikarma_Sonucu,
+    @sayi1 * @sayi2 AS Carpma_Sonucu,
+    @sayi1 / @sayi2 AS Bolme_Sonucu;
+-------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 7 - IF / ELSE Mantığı (Koşullu İfadeler)
+Amaç: Değişkenleri kullanarak karar mekanizması oluşturmak ve sonuca göre farklı mesajlar yazdırmak.
+*/
+DECLARE @satis_hedefi INT
+DECLARE @yapilan_satis INT
+
+SET @satis_hedefi = 1000
+SET @yapilan_satis = 1200
+
+
+IF @yapilan_satis >= @satis_hedefi
+    PRINT 'Tebrikler, hedef tuttu!'
+ELSE
+    PRINT 'Maalesef, hedef tutmadı.'
+-------------------------------------------------------------------------------------------------------------
+/*
+GÜN 7 - CASE WHEN Kullanımı
+Amaç: Satış fiyatlarına göre IF/ELSE mantığı işleterek ürünleri dinamik olarak segmentlere (kategorilere) ayırmak.
+*/
+SELECT urun_adi , kategori , satis_fiyati ,
+case
+WHEN satis_fiyati < 500 then 'ekonomik'
+WHEN satis_fiyati >= 500 and satis_fiyati <= 1500 then 'standart'
+ELSE 'premium segment'
+END AS urun_segmenti
+from kapsamli_satislar
+
+---------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 7 - WHILE Döngüsü (SQL Server - T-SQL Versiyonu)
+Amaç: BEGIN ve END blokları arasında havada dönen basit bir döngü kurmak.
+*/
+
+
+DECLARE @sayac INT = 1;
+
+
+WHILE @sayac <= 3
+BEGIN
+    PRINT @sayac;                 
+    SET @sayac = @sayac + 1;      
+END

@@ -1,0 +1,18 @@
+CREATE TABLE kargo_sirketleri (
+    Kargo_ID INT PRIMARY KEY,
+    Firma_Adi VARCHAR(50),
+    Ortalama_Teslimat_Gunu INT,
+    Kargo_Ucreti DECIMAL(5,2),
+    Hizmet_Puani DECIMAL(3,1)
+);
+
+INSERT INTO kargo_sirketleri (Kargo_ID, Firma_Adi, Ortalama_Teslimat_Gunu, Kargo_Ucreti, Hizmet_Puani) VALUES
+(1, 'Hizli Kargo Lojistik', 2, 45.00, 4.5),
+(2, 'Guvenli Teslimat A.S.', 4, 30.00, 3.8),
+(3, 'Jet Kargo', 1, 65.00, 4.8),
+(4, 'Ekonomik Kurye', 5, 20.00, 3.2),
+(5, 'GeceKusu Teslimat', 2, 55.00, 4.2);
+
+ALTER TABLE kapsamli_satislar ADD Kargo_ID INT;
+
+UPDATE kapsamli_satislar SET Musteri_ID = 101 + (Siparis_ID % 15), Kargo_ID = 1 + (Siparis_ID % 5);

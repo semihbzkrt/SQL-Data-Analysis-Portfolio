@@ -1,0 +1,29 @@
+/*
+GÜN 1: Müşteri Davranışları ve Temel Veri Filtreleme Analizi
+Amaç: Pazarlama ve satış ekiplerinin talepleri doğrultusunda; spesifik ürün, lokasyon ve müşteri segmentlerini tespit etmek.
+Kullanılan Yetenekler: WHERE, AND, OR, IN, LIKE, Çoklu Filtreleme
+*/
+
+-- 1. Yüksek bütçeli teknoloji alışverişlerini (Elektronik kategorisi ve 20.000 TL üzeri) filtreleme
+SELECT * FROM kapsamli_satislar 
+WHERE Kategori = 'Elektronik' AND Satis_Fiyati > 20000;
+
+------------------------------------------------------------------------------------------------------------------
+-- 2. Eğlence ve serbest zaman (Oyun veya Hobi kategorileri) harcamalarını inceleme
+SELECT * FROM kapsamli_satislar 
+WHERE Kategori = 'Oyun' OR Kategori = 'Hobi';
+
+------------------------------------------------------------------------------------------------------------------
+-- 3. VIP Müşterilerin (ID: 501, 502, 505) tüm sipariş geçmişini listeleme
+SELECT * FROM kapsamli_satislar 
+WHERE Musteri_ID IN (501, 502, 505);
+------------------------------------------------------------------------------------------------------------------
+
+-- 4. Ürün adı 'K' harfi ile başlayan (Kutu Oyunu, Kreatin vb.) ürünlerin satışı
+SELECT * FROM kapsamli_satislar 
+WHERE Urun_Adi LIKE 'K%';
+------------------------------------------------------------------------------------------------------------------
+
+-- 5. Hedef Kitle Analizi: İstanbul veya İzmir'de yaşayan, 25 yaşından büyük müşteriler
+SELECT * FROM kapsamli_satislar 
+WHERE Sehir IN ('Istanbul', 'Izmir') AND Musteri_Yasi > 25;

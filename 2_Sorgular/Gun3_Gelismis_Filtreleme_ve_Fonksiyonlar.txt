@@ -1,0 +1,76 @@
+/*
+GÜN 3 - Aralık Bazlı Veri Filtreleme (BETWEEN)
+Amaç: Kampanya dönemi satış performansını analiz etmek için belirli iki tarih arasındaki sipariş kayıtlarını listelemek.
+*/
+SELECT * FROM kapsamli_satislar WHERE tarih BETWEEN '2026-09-10' and '2026-09-20'
+---------------------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 3 - Metin İçinde Karakter/Kelime Arama (LIKE)
+Amaç: Paket satış stratejisini analiz etmek için ürün adında 'Seti' kelimesi barındıran tüm kayıtları getirmek.
+*/
+SELECT * FROM kapsamli_satislar WHERE urun_adi LIKE '%seti%'
+
+-----------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 3 - Aritmetik Operatörler (- ve *)
+Amaç: Finansal analiz için birim kâr ve toplam sipariş kârını matematiksel operatörlerle hesaplamak.
+*/
+Select (satis_fiyati-maliyet_fiyati)*adet AS 'siparis_karı' From kapsamli_satislar
+ORDER BY siparis_karı DESC
+
+----------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 3 - Aritmetik Operatörler (/ ve *)
+Amaç: Kampanya planlaması için elektronik ürünlerinde %20'lik indirim simülasyonu yapmak.
+*/
+
+SELECT (satis_fiyati - ( satis_fiyati * 20 / 100 )) AS 'Indirimli_Fiyat' FROM kapsamli_satislar
+WHERE kategori = 'elektronik'
+
+---------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 3 - Aritmetik Operatörler (+)
+Amaç: Operasyonel maliyet hesaplamalarına sabit kargo ücretini (+50 TL) dahil etmek.
+*/
+
+Select maliyet_fiyati+50 as yeni_maliyet_fiyati from kapsamli_satislar
+
+-----------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 3 - Metin Standardizasyonu (UPPER ve LOWER)
+Amaç: Otomatik iletişim kanallarında veri tutarlılığını sağlamak için metinleri standart boyutlara getirmek.
+*/
+SELECT sehir as 'orijinal_sehir' ,
+UPPER(sehir) as 'buyuk_harflerle_sehirler' ,
+LOWER(sehir) as 'kucuk_harflerle_sehirler'
+FROM kapsamli_satislar
+
+-------------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 3 - Metin Kırpma (LEFT ve RIGHT)
+Amaç: Yeni stok sistemi için mevcut kategori isimlerinin ilk 3 harfinden referans kodları üretmek.
+*/
+
+SELECT kategori ,LEFT(kategori , 3) as kategori_kodu,
+Urun_adi, RIGHT(urun_adi , 4) as urun_son_harfler
+from kapsamli_satislar
+
+----------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 3 - Metin İçinden Parça Alma (SUBSTRING)
+Amaç: Analiz raporları için uzun ürün isimlerinin sadece belirli bir karakter aralığını filtrelemek.
+*/
+
+SELECT urun_adi, SUBSTRING(urun_adi, 1, 6) as urun_ozet
+from kapsamli_satislar
+WHERE kategori = 'elektronik'
+
+----------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 3 - Metin Uzunluğu Bulma (LENGTH)
+Amaç: Mobil uygulama arayüzünde (UI) taşma yapabilecek, 15 karakterden uzun ürün isimlerini tespit etmek.
+*/
+Select urun_adi , LENGTH(urun_adi) as karakter_sayisi
+FROM kapsamli_satislar
+WHERE LENGTH(urun_adi) > 15

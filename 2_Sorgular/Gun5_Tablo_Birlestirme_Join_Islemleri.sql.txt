@@ -1,0 +1,90 @@
+/*
+GÜN 5 - Kategorik Sayım (GROUP BY ve COUNT)
+Amaç: Kargo operasyonları için siparişlerin şehirlere göre dağılımını tespit etmek.
+*/
+
+SELECT sehir , count(siparis_ID) as 'siparis_adedi' from kapsamli_satislar group by sehir
+
+-------------------------------------------------------------------------------------------------------------
+/*
+GÜN 5 - Kategorik Toplam (GROUP BY ve SUM)
+Amaç: Finansal analiz için ürün kategorilerinin getirdiği toplam ciroları karşılaştırmak.
+*/
+SELECT kategori , sum(satis_fiyati * adet) as 'toplam_fiyat' from kapsamli_satislar group by kategori
+
+-----------------------------------------------------------------------------------------------------------------
+/*
+GÜN 5 - Kategorik Ortalama (GROUP BY ve AVG)
+Amaç: Reklam stratejileri için her bir ürünün hedef kitle yaş ortalamasını belirlemek.
+*/
+SELECT urun_adi , avg(musteri_yasi) as 'yas_ortalamasi' from kapsamli_satislar
+group by urun_adi
+
+----------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 5 - Kategorik Uç Değerler (GROUP BY, MIN ve MAX)
+Amaç: Kategori bazlı fiyatlandırma stratejisini analiz etmek için alt ve üst fiyat sınırlarını tespit etmek.
+*/
+SELECT kategori , MAX(satis_fiyati) as 'en_yuksek_satis' ,
+MIN(satis_fiyati) as 'en_dusuk_satis'
+from kapsamli_satislar group by kategori
+
+---------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 5 - Gruplanmış Veri Üzerinde Filtreleme (HAVING)
+Amaç: VIP kargo anlaşması için sadece belirli bir sipariş hacmini (10 ve üzeri) aşan şehirleri tespit etmek.
+*/
+
+SELECT sehir , count(siparis_ID) as ' toplam_siparis'
+from kapsamli_satislar 
+group by sehir having count(siparis_ID)>10
+
+------------------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 5 - Tablo Birleştirme ve Filtrelemeyi Birlikte Kullanma
+Amaç: Müşteri profilleri ile satış kayıtlarını eşleştirerek, hedef kitleye özel (Öğrenci) ürün satın alma analizi yapmak.
+*/
+
+SELECT urun_adi , meslek , ad_soyad from musteriler m , kapsamli_satislar k
+WHERE m.musteri_ID = k.musteri_ID and m.meslek = 'öğrenci'
+
+------------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 5 - INNER JOIN Kullanımı
+Amaç: Müşteri tablosu ile satış tablosunu modern JOIN standardıyla birleştirip, sadece 'Standart' üyelerin alışverişlerini listelemek.
+*/
+SELECT ad_soyad , uyelik_tipi , urun_adi from musteriler m INNER JOIN kapsamli_satislar k
+ON
+m.musteri_ID = k.musteri_ID
+WHERE uyelik_tipi = 'standart'
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 5 - INNER JOIN ve GROUP BY Kombinasyonu
+Amaç: Müşteri profilleri ile satış tutarlarını modern JOIN ile birleştirmek ve meslek bazında toplam gelir analizi yapmak.
+*/
+SELECT meslek , sum(satis_fiyati) as 'toplam gelir' from musteriler m INNER JOIN kapsamli_satislar k
+on
+m.musteri_ID = k.musteri_ID 
+group by m.meslek
+order by 'toplam gelir'
+
+----------------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 5 - LEFT JOIN Kullanımı
+Amaç: Ana tablo olarak Müşteriler'i baz alıp, sipariş vermiş veya vermemiş tüm müşteri havuzunu satış verileriyle eşleştirmek.
+*/
+SELECT ad_soyad , uyelik_tipi , urun_adi , satis_fiyati from musteriler m LEFT JOIN  kapsamli_satislar k
+on
+k.musteri_ID = m.musteri_ID
+
+--------------------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 5 - RIGHT JOIN Kullanımı
+Amaç: Sağdaki tabloyu (Kargo Şirketleri) ana merkez kabul ederek, iş yapılmış veya yapılmamış tüm lojistik partnerleri listelemek.
+*/
+SELECT siparis_ID , urun_adi , firma_adi from kapsamli_satislar k RIGHT JOIN kargo_sirketleri ks
+on
+k.kargo_ID = ks.kargo_ID

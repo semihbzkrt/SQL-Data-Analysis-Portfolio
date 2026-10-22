@@ -1,0 +1,68 @@
+/*
+GÜN 2: Veri Manipülasyonu (DML) - Yeni Satış Kaydı Ekleme
+Amaç: Sisteme girilmesi unutulan veya operasyonel olarak sonradan gelen sipariş verilerini veri tabanına entegre etmek.
+Kullanılan Yetenekler: INSERT INTO, VALUES, SELECT ile doğrulama
+*/
+
+INSERT INTO kapsamli_satislar 
+(Siparis_ID, Musteri_ID, Tarih, Kategori, Urun_Adi, Maliyet_Fiyati, Satis_Fiyati, Adet, Sehir, Musteri_Yasi) 
+VALUES 
+(1051, 601, '2026-09-26', 'Spor', 'Yoga Mati', 100, 200, 2, 'Eskisehir', 24);
+
+SELECT * FROM kapsamli_satislar;
+
+---------------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 2: Veri Manipülasyonu (DML) - Mevcut Kayıtları Güncelleme
+Amaç: Müşteri talebi doğrultusunda eski lokasyon verilerini yeni adres bilgisiyle (UPDATE komutu kullanarak) değiştirmek.
+*/
+UPDATE kapsamli_satislar set sehir= 'istanbul'
+where musteri_ID= 502;
+
+SELECT * from kapsamli_satislar
+WHERE musteri_ID= 502;
+---------------------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 2 -  İptal Edilen Kaydı Silme (DELETE)
+Amaç: Finansal tutarsızlıkları önlemek için ödemesi gerçekleşmeyen hatalı kayıtları sistemden temizlemek.
+*/
+select * from kapsamli_satislar
+where siparis_ID= 1004;
+
+delete from kapsamli_satislar
+where siparis_ID= 1004;
+
+select * from kapsamli_satislar
+where siparis_ID= 1004;
+----------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 2 -  Benzersiz Verileri Filtreleme (DISTINCT)
+Amaç: Tekrar eden kayıtların arasından lojistik ağımızdaki benzersiz şehirleri listelemek.
+*/
+
+SELECT DISTINCT sehir
+FROM kapsamli_satislar;
+------------------------------------------------------------------------------------------------------------------------------
+/*
+GÜN 2 -  Verileri Sıralama (ORDER BY)
+Amaç: Premium kampanya bütçesi yönetimi için en yüksek fiyatlı ürün satışlarını (büyükten küçüğe doğru) listelemek.
+*/
+SELECT * FROM kapsamli_satislar
+ORDER BY satis_fiyati DESC;
+
+--------------------------------------------------------------------------------------------------------------------------
+
+/*
+GÜN 2 -  Sütun İsimlendirme ve Matematiksel İşlem (AS)
+Amaç: Finans raporlaması için satır bazlı toplam tutar hesaplaması yapmak ve hesaplanan bu değeri okunabilir bir isimle (Alias) göstermek.
+*/
+
+SELECT 
+    Siparis_ID,
+    Urun_Adi,
+    Satis_Fiyati,
+    Adet,
+    (Satis_Fiyati * Adet) AS Toplam_Odeme
+FROM kapsamli_satislar;

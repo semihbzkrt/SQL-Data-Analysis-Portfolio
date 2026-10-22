@@ -1,0 +1,25 @@
+CREATE TABLE musteriler (
+    Musteri_ID INT PRIMARY KEY,
+    Ad_Soyad VARCHAR(50),
+    Meslek VARCHAR(50),
+    Uyelik_Tipi VARCHAR(20),
+    Kayit_Tarihi DATE,
+    Sadakat_Puani INT
+);
+
+INSERT INTO musteriler (Musteri_ID, Ad_Soyad, Meslek, Uyelik_Tipi, Kayit_Tarihi, Sadakat_Puani) VALUES
+(101, 'Ahmet Yilmaz', 'Mühendis', 'Premium', '2023-01-15', 850),
+(102, 'Ayse Demir', 'Öğretmen', 'Standart', '2024-03-22', 120),
+(103, 'Caner Yildiz', 'Öğrenci', 'Standart', '2024-06-10', 45),
+(104, 'Fatma Sahin', 'Doktor', 'Premium', '2022-11-05', 1200),
+(105, 'Kemal Ozturk', 'Esnaf', 'Standart', '2025-01-30', 300),
+(106, 'Zeynep Kaya', 'Mimar', 'Premium', '2023-08-14', 950),
+(107, 'Burak Cetin', 'Öğrenci', 'Standart', '2026-02-18', 210),
+(108, 'Elif Aydin', 'Hemşire', 'Standart', '2026-05-09', 90),
+(109, 'Onur Tekin', 'Yazılım Geliştirici', 'Premium', '2021-07-25', 2100),
+(110, 'Selin Gunes', 'Avukat', 'Premium', '2022-04-12', 1500),
+(111, 'Kaan Mert', 'Tasarımcı', 'Standart', '2025-09-01', 400),
+(112, 'Derya Bulut', 'Muhasebeci', 'Premium', '2023-11-20', 1100),
+(113, 'Ozan Yücel', 'Akademisyen', 'Standart', '2024-01-15', 350),
+(114, 'Ceren Aslan', 'Pazarlama Uzmanı', 'Premium', '2022-09-09', 1800),
+(115, 'Tarik Eser', 'Bankacı', 'Standart', '2025-05-30', 250);
